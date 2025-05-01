@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
 }
 
 android {
@@ -33,16 +32,9 @@ android {
     buildFeatures {
         dataBinding true
     }
-    dexOptions {
-        //incremental = true;
-        preDexLibraries = false
-        javaMaxHeapSize "4g"
+    kotlinOptions {
+        jvmTarget='1.8'
     }
-     kotlinOptions
-            {
-                jvmTarget='1.8'
-
-            }
 }
 
 dependencies {
@@ -67,7 +59,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     // Annotation processor
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
@@ -87,8 +79,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
     // optional - RxJava2 support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
 

@@ -39,7 +39,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class AssistantFunctions {
     companion object {
         var Dips = 44
@@ -65,6 +64,7 @@ class AssistantFunctions {
         @Suppress("DEPRECATION")
         val imageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + "/assistant/"
         var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
         fun speak(message: String, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
             textToSpeech.speak(message, TextToSpeech.QUEUE_FLUSH, null, "")
             assistantViewModel.sendMessageToDatabase(keeper, message)
@@ -88,32 +88,26 @@ class AssistantFunctions {
         fun openFacebook(activity: Activity) {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.facebook.katana")
             intent.let { activity.startActivity(it) }
-
         }
 
         fun openMaps(activity: Activity) {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.google.android.apps.maps")
             intent.let { activity.startActivity(it) }
-
         }
 
         fun openGoogle(activity: Activity) {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.android.chrome")
             intent.let { activity.startActivity(it) }
-
         }
-
 
         fun openYoutube(activity: Activity) {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.google.android.youtube")
             intent.let { activity.startActivity(it) }
-
         }
 
         fun openWhatsAPP(activity: Activity) {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.whatsapp")
             intent.let { activity.startActivity(it) }
-
         }
 
         fun openMessages(activity: Activity, context: Context) {
@@ -125,7 +119,6 @@ class AssistantFunctions {
             val intent = activity.packageManager.getLaunchIntentForPackage("com.google.android.gm")
             intent.let { activity.startActivity(it) }
         }
-
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun readSMS(activity: Activity, context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
@@ -142,9 +135,7 @@ class AssistantFunctions {
                         null, null)
                 cursor!!.moveToFirst()
                 speak("Your last message was" + cursor.getString(12), textToSpeech, assistantViewModel, keeper)
-
             }
-
         }
 
         fun shareAFile(activity: Activity, context: Context) {
@@ -165,7 +156,6 @@ class AssistantFunctions {
             }
         }
 
-
         fun shareATextMessage(activity: Activity, context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
             if (ContextCompat.checkSelfPermission(
                             context, Manifest.permission.READ_EXTERNAL_STORAGE
@@ -176,16 +166,15 @@ class AssistantFunctions {
                         SHAREATEXTFILE
                 )
             } else {
-               try {
-                   val builder = StrictMode.VmPolicy.Builder()
-                   StrictMode.setVmPolicy(builder.build())
-                   val message = keeper.split("that").toTypedArray()[1]
-                   val intentShare = Intent(Intent.ACTION_SEND)
-                   intentShare.type = "text/plain"
-                   intentShare.putExtra(Intent.EXTRA_TEXT, message)
-                   activity.startActivity(Intent.createChooser(intentShare, "Sharing Text"))
-               }
-                catch (e: Exception) {
+                try {
+                    val builder = StrictMode.VmPolicy.Builder()
+                    StrictMode.setVmPolicy(builder.build())
+                    val message = keeper.split("that").toTypedArray()[1]
+                    val intentShare = Intent(Intent.ACTION_SEND)
+                    intentShare.type = "text/plain"
+                    intentShare.putExtra(Intent.EXTRA_TEXT, message)
+                    activity.startActivity(Intent.createChooser(intentShare, "Sharing Text"))
+                } catch (e: Exception) {
                     e.printStackTrace()
                     Log.d("error in sms", e.message.toString())
                     speak("Something went wrong", textToSpeech, assistantViewModel, keeper)
@@ -221,11 +210,11 @@ class AssistantFunctions {
                     )
                     speak("Message has been Send and the message send was $message to $number", textToSpeech, assistantViewModel, keeper)
                 } catch (e: Exception) {
-                e.printStackTrace()
-                Log.d("error in sms", e.message.toString())
-                speak("Something went wrong", textToSpeech, assistantViewModel, keeper)
+                    e.printStackTrace()
+                    Log.d("error in sms", e.message.toString())
+                    speak("Something went wrong", textToSpeech, assistantViewModel, keeper)
+                }
             }
-        }
         }
 
         fun makeAPhoneCall(activity: Activity, context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
@@ -247,21 +236,20 @@ class AssistantFunctions {
                         Log.d("error in call", e.message.toString())
                         speak("Something went wrong", textToSpeech, assistantViewModel, keeper)
                     }
-
                 }
             } else {
                 speak("Dial Correct Phone Number", textToSpeech, assistantViewModel, keeper)
             }
         }
-        fun search(activity: Activity, keeper: String)
-        {
+
+        fun search(activity: Activity, keeper: String) {
             val uri = Uri.parse("https://www.google.com/search?q=$keeper")
             val gSearchIntent = Intent(Intent.ACTION_VIEW, uri)
             activity.startActivity(gSearchIntent)
         }
 
         fun callContact(activity: Activity, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
-            var number= ""
+            var number = ""
             if (ContextCompat.checkSelfPermission(
                             activity, Manifest.permission.READ_CONTACTS
                     ) != PERMISSION_GRANTED) {
@@ -279,7 +267,7 @@ class AssistantFunctions {
                     val phones: Cursor = activity.contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)!!
                     while (phones.moveToNext()) {
                         var contactName: String = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                        contactName=contactName.toLowerCase()
+                        contactName = contactName.toLowerCase()
                         if (contactName.contains(name.toLowerCase())) {
                             number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                             Log.d("number", number)
@@ -298,19 +286,15 @@ class AssistantFunctions {
                             val dial = "tel:$number"
                             speak("Calling now", textToSpeech, assistantViewModel, keeper)
                             activity.startActivity(Intent(Intent.ACTION_CALL, Uri.parse(dial)))
-
                         }
                     } else {
                         speak("Wrong Contact Name", textToSpeech, assistantViewModel, keeper)
                     }
-
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.d("error in call", e.message.toString())
                     speak("Something went wrong", textToSpeech, assistantViewModel, keeper)
                 }
-
-
             }
         }
 
@@ -347,8 +331,6 @@ class AssistantFunctions {
             } else {
                 speak("Turn on Bluetooth to get paired devices", textToSpeech, assistantViewModel, keeper)
             }
-
-
         }
 
         fun turnOnFlash(cameraManager: CameraManager, cameraID: String, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
@@ -382,7 +364,6 @@ class AssistantFunctions {
                 val clipData = ClipData.newPlainText("text", data)
                 clipboardManager.setPrimaryClip(clipData)
                 speak("data copied to clipboard that is $data", textToSpeech, assistantViewModel, keeper)
-
             }
         }
 
@@ -424,10 +405,7 @@ class AssistantFunctions {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
                 activity.startActivity(cameraIntent)
                 speak("Photo will be saved to $file", textToSpeech, assistantViewModel, keeper)
-
             }
-
-
         }
 
         fun playRingtone(ringtone: Ringtone, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
@@ -461,7 +439,6 @@ class AssistantFunctions {
                         Toast.makeText(activity.applicationContext, "Error ${e.message}", Toast.LENGTH_SHORT).show()
 
                     }
-
         }
 
         private fun summariseText(keeper: String): String? {
@@ -470,10 +447,7 @@ class AssistantFunctions {
             return summary.element as String
         }
 
-
-
         fun motivationalThoughts(textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
-
             val horoscopes: List<String> = listOf<String>("If you want to achieve greatness stop asking for permission.",
                     "Things work out best for those who make the best of how things work out.",
                     "To live a creative life, we must lose our fear of being wrong.",
@@ -492,8 +466,6 @@ class AssistantFunctions {
             speak(horoscopes[index], textToSpeech, assistantViewModel, keeper)
         }
 
-
-
         fun joke(textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, keeper: String) {
             val jokes: List<String> = listOf<String>("That bizarre moment when you pick up your car from the garage and you realize that the breaks are still not working, but they made your horn louder.\n",
                     " I had a dream where an evil queen forced me to eat a gigantic marshmallow. When I woke up, my pillow was gone.\n",
@@ -511,11 +483,75 @@ class AssistantFunctions {
         }
 
 
-
-
+        fun handleNewsRequest(context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel) {
+            val newsManager = NewsManager(context) // Requires NewsManager implementation
+            newsManager.fetchNews { news ->
+                val newsHeadlines = news.joinToString("\n") { it.title }
+                speak(newsHeadlines, textToSpeech, assistantViewModel, "Here are today's top headlines")
+            }
         }
+
+        fun handleAlarmRequest(context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, command: String) {
+            val alarmManager = AlarmManager(context) // Requires AlarmManager implementation
+
+            val timePattern = "\\d{1,2}(?::\\d{2})?"
+            val timeMatch = Regex(timePattern).find(command)
+            if (timeMatch != null) {
+                val message = "Hey Wake up its ${timeMatch.value}"
+                alarmManager.setAlarm(timeMatch.value, message) // Requires setAlarm implementation in AlarmManager
+                speak("Alarm set for ${timeMatch.value}", textToSpeech, assistantViewModel, command)
+            }
+        }
+
+        fun handleMusicRequest(context: Context, textToSpeech: TextToSpeech, assistantViewModel: AssistantViewModel, command: String) {
+            val musicPlayer = MusicPlayer(context) // Requires MusicPlayer implementation
+            val language = when {
+                command.contains("tamil", ignoreCase = true) -> "Tamil"
+                command.contains("hindi", ignoreCase = true) -> "Hindi"
+                else -> "English"
+            }
+
+            // Placeholder song info - replace with actual music service integration
+            val songInfo = SongInfo(
+                title = "Demo Song",
+                artist = "Demo Artist",
+                length = "3:45",
+                movie = "Demo Movie",
+                language = language
+            )
+
+            musicPlayer.playMusic(language, songInfo) // Requires playMusic implementation in MusicPlayer
+            speak("Playing ${language} music", textToSpeech, assistantViewModel, command)
+        }
+
+        data class SongInfo(val title: String, val artist: String, val length: String, val movie: String, val language: String)
+    }
+}
+
+// Placeholder classes -  replace with actual implementations
+class NewsManager(val context: Context) {
+    fun fetchNews(callback: (List<NewsItem>) -> Unit) {
+        // Implement fetching news headlines from a news API here
+        val dummyNews = listOf(
+            NewsItem("Headline 1"),
+            NewsItem("Headline 2"),
+            NewsItem("Headline 3")
+        )
+        callback(dummyNews)
     }
 
+    data class NewsItem(val title: String)
+}
 
 
+class AlarmManager(val context: Context) {
+    fun setAlarm(time: String, message: String) {
+        //Implement alarm setting logic here using AlarmManager API
+    }
+}
 
+class MusicPlayer(val context: Context) {
+    fun playMusic(language: String, songInfo: AssistantFunctions.SongInfo) {
+        //Implement music playing logic here using a music streaming API or local music library
+    }
+}

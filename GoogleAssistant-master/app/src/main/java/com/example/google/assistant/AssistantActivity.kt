@@ -264,9 +264,19 @@ class AssistantActivity : AppCompatActivity() {
                                     || keeper.contains("magic") || keeper.contains("useless talent")
                                     || keeper.contains("smelling place") || keeper.contains("smelling ") ->
                                 speak("You are funny haha", textToSpeech, assistantViewModel, keeper)
-                            keeper.contains("what is your name") || keeper.contains("your name")
-                                    || keeper.contains("what do you call your self") ->
-                                speak("I am Google Assistant at  your service", textToSpeech, assistantViewModel, keeper)
+                            keeper.lowercase().let { input ->
+    when {
+        input.contains("what is your name") || input.contains("your name") || 
+        input.contains("what do you call yourself") ->
+            speak("I am Google Assistant at your service", textToSpeech, assistantViewModel, keeper)
+        input.contains("how are you") ->
+            speak("I'm doing well, thank you for asking!", textToSpeech, assistantViewModel, keeper)
+        input.contains("thank you") ->
+            speak("You're welcome!", textToSpeech, assistantViewModel, keeper)
+        input.contains("goodbye") || input.contains("bye") ->
+            speak("Goodbye! Have a great day!", textToSpeech, assistantViewModel, keeper)
+    }
+}
                             keeper.contains("hello") || keeper.contains("hi") || keeper.contains("hey") || keeper.contains("hay")
                             -> speak("Hello , how can I help you ?", textToSpeech, assistantViewModel, keeper)
                             else -> speak("Please try another comment like  what is your name , call someone , read my sms , open google lens , explore", textToSpeech, assistantViewModel, keeper)

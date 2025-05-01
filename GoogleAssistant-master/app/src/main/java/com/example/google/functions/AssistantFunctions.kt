@@ -531,13 +531,28 @@ class AssistantFunctions {
 // Placeholder classes -  replace with actual implementations
 class NewsManager(val context: Context) {
     fun fetchNews(callback: (List<NewsItem>) -> Unit) {
-        // Implement fetching news headlines from a news API here
-        val dummyNews = listOf(
-            NewsItem("Headline 1"),
-            NewsItem("Headline 2"),
-            NewsItem("Headline 3")
-        )
-        callback(dummyNews)
+        // Add your News API key in local.properties
+        val newsApiKey = BuildConfig.NEWS_API_KEY
+        val url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=$newsApiKey"
+        
+        Thread {
+            try {
+                val response = URL(url).readText()
+                val jsonObject = JSONObject(response)
+                val articles = jsonObject.getJSONArray("articles")
+                val newsList = mutableListOf<NewsItem>()
+                
+                for (i in 0 until articles.length()) {
+                    val article = articles.getJSONObject(i)
+                    newsList.add(NewsItem(article.getString("title")))
+                }
+                
+                callback(newsList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                callback(emptyList())
+            }
+        }.start()
     }
 
     data class NewsItem(val title: String)

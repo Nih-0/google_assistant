@@ -1,0 +1,43 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. See https://docs.gradle.org/7.6/userguide/gradle_daemon.html#sec:disabling_the_daemon.
+Daemon will be stopped at the end of the build 
+WARNING:We recommend using a newer Android Gradle plugin to use compileSdk = 33
+
+This Android Gradle plugin (7.0.0) was tested up to compileSdk = 31
+
+This warning can be suppressed by adding
+    android.suppressUnsupportedCompileSdk=33
+to this project's gradle.properties
+
+The build will continue, but you are strongly encouraged to update your project to
+use a newer Android Gradle Plugin that has been tested with compileSdk = 33
+Checking the license for package Android SDK Build-Tools 30.0.3 in /home/runner/android-sdk/licenses
+Warning: License for package Android SDK Build-Tools 30.0.3 not accepted.
+Checking the license for package Android SDK Platform 33 in /home/runner/android-sdk/licenses
+Warning: License for package Android SDK Platform 33 not accepted.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not determine the dependencies of task ':app:compileDebugJavaWithJavac'.
+> Failed to install the following Android SDK packages as some licences have not been accepted.
+     platforms;android-33 Android SDK Platform 33
+     build-tools;30.0.3 Android SDK Build-Tools 30.0.3
+  To build this project, accept the SDK license agreements and install the missing components using the Android Studio SDK Manager.
+  Alternatively, to transfer the license agreements from one workstation to another, see http://d.android.com/r/studio-ui/export-licenses.html
+  
+  Using Android SDK: /home/runner/android-sdk
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.6/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 23s

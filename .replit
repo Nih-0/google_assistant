@@ -4,7 +4,7 @@ modules = ["java-graalvm22.3"]
 channel = "stable-24_05"
 
 [workflows]
-runButton = "Run Android"
+runButton = "Build Debug APK"
 
 [[workflows.workflow]]
 name = "Run Android"
@@ -23,3 +23,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd GoogleAssistant-master && ./gradlew assembleRelease"
+
+[[workflows.workflow]]
+name = "Build Debug APK"
+author = 40796988
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd GoogleAssistant-master && ./gradlew assembleDebug"

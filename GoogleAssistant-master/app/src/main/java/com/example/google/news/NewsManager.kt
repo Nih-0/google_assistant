@@ -9,7 +9,7 @@ import org.json.JSONObject
 
 class NewsManager(private val context: Context) {
     fun fetchNews(callback: (List<NewsItem>) -> Unit) {
-        val url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=YOUR_API_KEY"
+        val url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=7508077a51dc468d9c8f7b76bc76451d"
         val queue = Volley.newRequestQueue(context)
         
         val jsonObjectRequest = JsonObjectRequest(

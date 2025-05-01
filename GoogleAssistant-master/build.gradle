@@ -9,9 +9,6 @@ buildscript {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
-            url "https://dl.bintary.com/wotomas/maven"
-        }
-        maven {
             url "https://maven.google.com"
         }
 
@@ -20,7 +17,6 @@ buildscript {
         classpath "com.android.tools.build:gradle:7.0.0"
         classpath 'com.google.gms:google-services:4.3.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -34,14 +30,9 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
-            url "https://dl.bintary.com/wotomas/maven"
-        }
-        maven {
             url "https://maven.google.com"
         }
-        maven{
-            url 'https://dl.bintray.com/boxbotbarry/maven'
-        }
+        // Removed deprecated bintray repositories
     }
 }
 

@@ -51,7 +51,25 @@ class AlarmManager(private val context: Context) {
     }
     
     private fun parseTimeString(timeString: String): Pair<Int, Int> {
-        // Simple time parser for "HH:MM" format
+        // Parse time in format "6 AM", "6:30 PM", etc.
+        val timeParts = timeString.uppercase().split(" ")
+        val time = timeParts[0]
+        val meridian = timeParts[1]
+        
+        val (hours, minutes) = if (time.contains(":")) {
+            val parts = time.split(":")
+            Pair(parts[0].toInt(), parts[1].toInt())
+        } else {
+            Pair(time.toInt(), 0)
+        }
+        
+        // Convert to 24-hour format
+        return when {
+            meridian == "PM" && hours != 12 -> Pair(hours + 12, minutes)
+            meridian == "AM" && hours == 12 -> Pair(0, minutes)
+            else -> Pair(hours, minutes)
+        }
+    }
         val parts = timeString.split(":")
         return Pair(parts[0].toInt(), parts[1].toInt())
     }
